@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
+import { RefreshControl } from 'react-native';
 import {
     StyleSheet,
     View,
@@ -10,15 +12,39 @@ import {
     Alert
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Loading } from '../../../components/Loading';
 
 
 export default function HomeScreen({ navigation }) {
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [user, setUser] = React.useState();
+
+
+    const getUser = () => {
+        setIsLoading(true);
+        AsyncStorage.getItem('user', (errs, user) => {
+            setUser(JSON.parse(user));
+        }).finally(() => {
+            setIsLoading(false)
+        });
+    };
+
+    React.useEffect(getUser, []);
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Loading />
+            </View>
+        );
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.ViewName}>
-                <Text style={styles.TextName}>Худнийикй Дмитрий</Text>
+                <Text style={styles.TextName}>{user.surname} {user.name}</Text>
             </View>
-            <ScrollView style={styles.ListSettings}>
+            <ScrollView style={styles.ListSettings} refreshControl={<RefreshControl refreshing={isLoading} onRefresh={getUser} />}>
                 <TouchableWithoutFeedback onPress={() => { navigation.navigate('EditProfile') }}>
                     <View style={styles.SettingItem}>
                         <View style={styles.ViewIcon}>
@@ -36,16 +62,6 @@ export default function HomeScreen({ navigation }) {
                         </View>
                         <View style={styles.SettingItemViewText}>
                             <Text style={styles.SettingItemText}>Мои заказы</Text>
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
-                    <View style={styles.SettingItem}>
-                        <View>
-                            <Ionicons name={'notifications'} size={25} color={'blue'} />
-                        </View>
-                        <View style={styles.SettingItemViewText}>
-                            <Text style={styles.SettingItemText}>Уведомления</Text>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -89,13 +105,28 @@ export default function HomeScreen({ navigation }) {
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
+                <TouchableWithoutFeedback onPress={() => {
+                    Alert.alert(
+                        "Вы дейстительно хотите выйти?", null,
+                        [
+                            {
+                                text: "Да, Выйти",
+                                onPress: () => {
+                                    AsyncStorage.removeItem('user');
+                                    navigation.navigate('auth');
+                                },
+                            }, {
+                                text: "Нет, Отмена",
+                            },
+                        ]
+                    );
+                }}>
                     <View style={styles.SettingItem}>
                         <View>
                             <Ionicons name={'log-out'} size={25} color={'blue'} />
                         </View>
                         <View style={styles.SettingItemViewText}>
-                            <Text style={styles.SettingItemText}>Сменить пользователя</Text>
+                            <Text style={styles.SettingItemText}>Выйти</Text>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

@@ -15,7 +15,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import EditInput from '../../components/EditInput';
 
-export default function LoginScreen({ navigation }) {
+export default function RegistrationScreen({ navigation }) {
+    let data = {
+        email: null,
+        name: null,
+        surname: null,
+        passwd: null,
+        confirmPasswd: null,
+    }
+
     return (
         <KeyboardAwareScrollView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             {/* <StatusBar  hidden = {true} backgroundColor="#00BCD4" /> */}
@@ -24,31 +32,58 @@ export default function LoginScreen({ navigation }) {
                     <Image style={styles.logo} source={require('../../img/logo128.png')} />
                     <Text style={styles.title}>Регистрация</Text>
                     <View style={styles.inputItem}>
-                        <EditInput style={styles.input} data={{ label: "Электронная почта" }} />
+                        <EditInput onChange={text => { data.email = text }} style={styles.input} data={{ label: "Электронная почта" }} />
                     </View>
                     <View style={styles.inputItem}>
-                        <EditInput style={styles.input} data={{ label: "Имя" }} />
+                        <EditInput onChange={text => { data.name = text }} style={styles.input} data={{ label: "Имя" }} />
                     </View>
                     <View style={styles.inputItem}>
-                        <EditInput style={styles.input} data={{ label: "Фамилия" }} />
+                        <EditInput onChange={text => { data.surname = text }} style={styles.input} data={{ label: "Фамилия" }} />
                     </View>
                     <View style={styles.inputItem}>
-                        <EditInput style={styles.input} data={{ label: "пароль", secure: true }} />
+                        <EditInput onChange={text => { data.passwd = text }} style={styles.input} data={{ label: "пароль", secure: true }} />
                     </View>
                     <View style={styles.inputItem}>
-                        <EditInput style={styles.input} data={{ label: "Подтверждение пароля", secure: true }} />
+                        <EditInput onChange={text => { data.confirmPasswd = text }} style={styles.input} data={{ label: "Подтверждение пароля", secure: true }} />
                     </View>
                     <TouchableOpacity style={[styles.btn, styles.btnPrimary]} onPress={() => {
-                        // var data = null;
-                        // console.log('\n')
-                        // AsyncStorage.getItem('qwe', (errs, result) => {
-                        //     // data = result;
-                        //     // console.log(result)
-                        // }).then((user) => {
-                        //     if(!user) return;
-                        //     console.log(user)
-                        // })
+                        let errs = [];
+                        if (!data.email) errs.push('Почта обязательное поле');
+                        if (!data.name) errs.push('Почта обязательное поле');
+                        if (!data.surname) errs.push('Почта обязательное поле');
+                        if (!data.passwd) errs.push('Пароль обязательное поле');
+                        if (!data.confirmPasswd) errs.push('Пароль обязательное поле');
 
+                        if (errs.length) {
+                            Alert.alert('Не все поля заполнены!');
+                            return;
+                        }
+                        if (data.passwd != data.confirmPasswd) {
+                            Alert.alert('Пароли не совпадают!');
+                            return;
+                        }
+
+                        var formdata = new FormData();
+                        formdata.append("email", data.email);
+                        formdata.append("name", data.name);
+                        formdata.append("surname", data.surname);
+                        formdata.append("passwd", data.passwd);
+                        formdata.append("confirmPasswd", data.confirmPasswd);
+
+                        fetch('http://colledge.fun/api/account/create', {
+                            method: 'post',
+                            body: formdata,
+                        }).then(response => response.text()).then(response => {
+                            response = JSON.parse(response)
+                            if (response.status == 'error') {
+                                Alert.alert("Пользователь не найден!")
+                            } else {
+                                AsyncStorage.setItem('user', JSON.stringify(response.data.user), () => {
+                                    navigation.navigate('main')
+                                });
+                            }
+                            console.log(response)
+                        })
                     }}>
                         <Text>Войти</Text>
                     </TouchableOpacity>

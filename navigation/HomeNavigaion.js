@@ -18,35 +18,27 @@ const HomeScreenNavigation = function () {
             <Stack.Screen name="Home" component={HomeScreen} options={{
                 header: () => {
                     return (
-                        <SafeAreaView style={styles.safeArea}>
-                            <View style={{
-                                height: '100%',
-                                width: '100%',
-                                paddingHorizontal: 10,
-                                paddingVertical: 3,
-                                flexDirection: 'row',
-                                flexWrap: 'wrap',
+                        <View style={styles.safeArea}>
+
+                            <TextInput
+                                style={styles.input}
+                                // value={value}
+                                placeholder="Поиск товара"
+                                onChangeText={(text) => { qwe = text }}
+                            // keyboardType="text"
+                            />
+                            <TouchableOpacity style={styles.btn} onPress={() => {
+                                Alert.alert('Ошибка', qwe);
+                                // console.debug(qwe);
                             }}>
-                                <TextInput
-                                    style={styles.input}
-                                    // value={value}
-                                    placeholder="Поиск товара"
-                                    onChangeText={(text) => { qwe = text }}
-                                    // keyboardType="text"
-                                />
-                                <TouchableOpacity style={styles.btn} onPress={() => {
-                                    Alert.alert('Ошибка', qwe);
-                                    // console.debug(qwe);
-                                }}>
-                                    <Ionicons style={{
-                                    }} name={'filter'} size={30} color={'blue'} />
-                                </TouchableOpacity>
-                            </View>
-                        </SafeAreaView>
+                                <Ionicons style={{
+                                }} name={'filter'} size={30} color={'blue'} />
+                            </TouchableOpacity>
+                        </View>
                     );
                 }
             }} />
-            <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Статья' }} />
+            <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт' }} />
         </Stack.Navigator>
     );
 }
@@ -55,40 +47,27 @@ export { HomeScreenNavigation };
 
 const styles = StyleSheet.create({
     input: {
-        // height: "100%",
-        // margin: 12,
-        width: '80%',
-        height: '100%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        width: '85%',
         borderWidth: 1,
-        borderColor: 'silver',
-        padding: 10,
-        borderRadius: 10,
+        borderColor: 'blue',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 5,
     },
     safeArea: {
         backgroundColor: 'white',
         zIndex: -1,
-        marginTop: 10,
         height: 50,
-        // marginRight: 40,
-        paddingRight: 20,
-        paddingHorizontal: 10,
-        // marginHorizontal: 10,
-        width: "100%",
-        // borderColor: 'blue',
-        // flex: 1,
-        // borderWidth: 1,
-
+        paddingHorizontal: 20,
+        paddingVertical: 7,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
     },
     btn: {
-        // marginTop: 'auto',
-        // flex: 1,
-        height: '100%',
+        width: 30,
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'center',
-        // width: 20,
-        // borderColor: 'green',
-        // borderWidth: 1,
-        // marginLeft:
+        marginLeft: 10,
     }
 });

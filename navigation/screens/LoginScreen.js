@@ -21,6 +21,7 @@ export default function LoginScreen({ navigation }) {
 
     let data = {
         email: null,
+        passwd: null,
     }
 
     return (
@@ -34,11 +35,37 @@ export default function LoginScreen({ navigation }) {
                         <EditInput style={styles.input} data={{ label: "Электронная почта" }} onChange={(text) => { data.email = text }} />
                     </View>
                     <View style={styles.inputItem}>
-                        <EditInput style={styles.input} data={{ label: "Пароль", secure: true }} />
+                        <EditInput style={styles.input} data={{ label: "Пароль", secure: true }} onChange={(text) => { data.passwd = text }} />
                     </View>
-                    <TouchableOpacity style={[styles.btn, styles.btnPrimary]} onPress={() => { 
-                        AsyncStorage.setItem('email', data.email)
-                     }}>
+                    <TouchableOpacity style={[styles.btn, styles.btnPrimary]} onPress={() => {
+                        let errs = [];
+                        if (!data.email) errs.push('Почта обязательное поле');
+                        if (!data.passwd) errs.push('Пароль обязательное поле');
+
+                        if (errs.length) {
+                            Alert.alert('Не все поля заполнены!');
+                            return;
+                        }
+
+                        var formdata = new FormData();
+                        formdata.append("email", data.email);
+                        formdata.append("passwd", data.passwd);
+
+                        fetch('http://colledge.fun/api/account/login', {
+                            method: 'post',
+                            body: formdata,
+                        }).then(response => response.text()).then(response => {
+                            response = JSON.parse(response)
+                            if (response.status == 'error') {
+                                Alert.alert("Пользователь не найден!")
+                            } else {
+                                console.log()
+                                AsyncStorage.setItem('user', JSON.stringify(response.data.user), () => {
+                                    navigation.navigate('main')
+                                });
+                            }
+                        })
+                    }}>
                         <Text>Войти</Text>
                     </TouchableOpacity>
                     <Text style={styles.small}>Если у вас еще нет аккаунт <Text style={styles.link} onPress={() => { navigation.navigate('registration') }}>создайте его</Text></Text>

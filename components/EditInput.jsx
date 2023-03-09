@@ -24,7 +24,6 @@ export default class EditInput extends React.Component {
         this.setState({
             stylesItem: styles.EditItemFocus
         })
-        console.debug()
     }
 
     onBlur() {
@@ -44,11 +43,11 @@ export default class EditInput extends React.Component {
                     <TextInput
                         onBlur={() => this.onBlur()}
                         onFocus={() => this.onFocus()}
-                        // onChangeText={value => {
-                        //     if (this.state.setValue) {
-                        //         this.state.setValue(value)
-                        //     }
-                        // }}
+                        onChangeText={value => {
+                            if (this.state.setValue) {
+                                this.state.setValue(value)
+                            }
+                        }}
                         secureTextEntry={this.state.secure}
                         // style={s tyles.EditInput}
                         style={styles.EditInput}> {this.state.value}</TextInput>

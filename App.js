@@ -1,17 +1,14 @@
 import * as React from 'react';
-import { StatusBar } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert, SafeAreaView, StatusBar, View } from 'react-native';
 import MainContainer from './navigation/MainContainer';
-import AuthNavigation from './navigation/AuthNavigation';
-import LoginScreen from './navigation/screens/LoginScreen';
 
 
 function App() {
-  return (
-    <MainContainer />
-    // <LoginScreen />
-    // <AuthNavigation />
-  );
+    return (
+        <SafeAreaView style={{flex: 1,}}>
+            <MainContainer />
+        </SafeAreaView>
+    )
 }
 
 export default App;
