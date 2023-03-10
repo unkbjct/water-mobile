@@ -12,11 +12,12 @@ import styled from 'styled-components/native';
 
 // date-fns => format
 
-export const Product = ({ item }) => {
+export const Product = ({ item, img }) => {
+    
     return (
         <View style={styles.ProductCart}>
             <View style={styles.ProductViewImage}>
-                <Image style={styles.ProductCartImage} source={{ uri: 'http://colledge.fun/' + item.images[0].url }} />
+                <Image style={styles.ProductCartImage} source={{ uri: 'http://colledge.fun/' + img }} />
             </View>
             <View >
                 <View style={{ marginBottom: 10 }}>

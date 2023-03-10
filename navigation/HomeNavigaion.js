@@ -38,7 +38,7 @@ const HomeScreenNavigation = function () {
                     );
                 }
             }} />
-            <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт' }} />
+            <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт', unmountOnBlur: true, }} />
         </Stack.Navigator>
     );
 }

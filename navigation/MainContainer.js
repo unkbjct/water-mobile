@@ -10,6 +10,7 @@ import { createNativeStackNavigator, createStackNavigator } from '@react-navigat
 
 import { HomeScreenNavigation } from './HomeNavigaion';
 import { ProfileScreenNavigation } from './ProfileNavigation';
+import { CartNavigation } from './CartNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Loading } from '../components/Loading';
 import LoginScreen from './screens/LoginScreen';
@@ -72,8 +73,8 @@ export default function MainContainer() {
             // showHideTransition="fade"
             />
             <Tab.Navigator initialRouteName={isLogin ? 'main' : 'auth'}>
-                <Tab.Screen name="auth" component={Auth} options={{ headerShown: false, tabBarStyle: {display:'none'} }} />
-                <Tab.Screen name="main" component={Main} options={{ headerShown: false, tabBarStyle: {display:'none'} }} />
+                <Tab.Screen name="auth" component={Auth} options={{ headerShown: false, tabBarStyle: { display: 'none' } }} />
+                <Tab.Screen name="main" component={Main} options={{ headerShown: false, tabBarStyle: { display: 'none' } }} />
             </Tab.Navigator>
             {/* st */}
         </NavigationContainer>
@@ -128,9 +129,9 @@ function Main() {
             })}
         >
 
-            <Tab.Screen name={screenNames.home} component={HomeScreenNavigation} options={{headerShown: false}} />
-            <Tab.Screen name={screenNames.cart} component={HomeScreenNavigation} />
-            <Tab.Screen name={screenNames.profile} component={ProfileScreenNavigation} options={{headerShown: false}} />
+            <Tab.Screen name={screenNames.home} component={HomeScreenNavigation} options={{ headerShown: false, }} />
+            <Tab.Screen name={screenNames.cart} component={CartNavigation} options={{ unmountOnBlur: true }} />
+            <Tab.Screen name={screenNames.profile} component={ProfileScreenNavigation} options={{ headerShown: false }} />
 
         </Tab.Navigator>
     );

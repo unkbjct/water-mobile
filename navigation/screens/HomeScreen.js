@@ -71,7 +71,7 @@ export default function HomeScreen({ navigation }) {
                         }}
                         onPress={() => navigation.navigate('FullPost', { id: item.id })}
                     >
-                        <Product item={item} />
+                        <Product item={item} img={item.images[0].url} />
                     </TouchableOpacity>
                 )}
             />

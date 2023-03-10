@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -13,6 +13,8 @@ import { Loading } from '../../components/Loading';
 import Swiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function PostScreen({ route, navigation }) {
@@ -22,10 +24,11 @@ export default function PostScreen({ route, navigation }) {
     const [attributes, setAttributes] = React.useState();
     const [inclusions, setInclusions] = React.useState();
     const [reviews, setReviews] = React.useState();
+    const [isFavorite, setIsFavorite] = React.useState(false);
+    const [favorites, setFavorites] = React.useState();
+    const [isInCart, setIsInCart] = React.useState();
 
     const id = route.params.id;
-
-
 
     const fetchPosts = () => {
 
@@ -43,13 +46,22 @@ export default function PostScreen({ route, navigation }) {
                 navigation.setOptions({
                     title: JSON.parse(response).data.product.title,
                 });
+                AsyncStorage.getItem('favorites', (errs, favorites) => {
+                    if (!favorites) return;
+                    favorites = JSON.parse(favorites);
+                    setFavorites(favorites);
+                    favorites.forEach(favor => {
+                        if (favor == JSON.parse(response).data.product.id) setIsFavorite(true)
+                    });
+                })
+            }).then(() => {
+                setIsLoading(false)
             })
-            .finally(() => {
-                setIsLoading(false);
-            });
+
     }
 
     React.useEffect(fetchPosts, []);
+
 
     if (isLoading) {
         return (
@@ -95,9 +107,74 @@ export default function PostScreen({ route, navigation }) {
                             {(product.sale) ? <Text style={styles.oldPrice}>{currencyFormat(product.price)}  ₽.</Text> : <></>}
                         </View>
                     </View>
-                    <View style={{ marginBottom: 30, }}>
-                        <TouchableOpacity style={styles.btn}>
+                    <View style={{ marginBottom: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <TouchableOpacity style={styles.btn} onPress={() => {
+                            AsyncStorage.getItem('cartList', (errs, cartList) => {
+                                cartList = JSON.parse(cartList);
+                                if (cartList) {
+                                    cartList.forEach(cartItem => {
+                                        if (cartItem.id == product.id) setIsInCart(true);
+                                    })
+                                    if (isInCart) {
+                                        cartList.forEach(cartItem => {
+                                            if (cartItem.id == product.id) cartItem.count++;
+                                        })
+                                    } else {
+                                        cartList.push({
+                                            id: product.id,
+                                            count: 1,
+                                        })
+                                        setIsInCart(true)
+                                    }
+                                    AsyncStorage.setItem("cartList", JSON.stringify(cartList));
+                                } else {
+                                    AsyncStorage.setItem("cartList", JSON.stringify([{
+                                        id: product.id,
+                                        count: 1,
+                                    }]))
+                                    setIsInCart(true)
+                                }
+                                Alert.alert("Товар успешно добавлен в корзину", null, [
+                                    {
+                                        text: "Ок",
+                                    },
+                                    {
+                                        text: "В корзину",
+                                        onPress: () => {
+                                            navigation.navigate("Корзина")
+                                        }
+                                    }
+                                ])
+                                console.log(cartList)
+                            })
+                        }}>
                             <Text>Добавить в корзину</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            if (isFavorite) {
+                                setIsFavorite(true)
+                                favorites.splice(favorites.indexOf(product.id), 1); // 2nd parameter means remove one item only
+                                if (favorites.length == 0) {
+                                    AsyncStorage.removeItem('favorites');
+                                    setIsFavorite(false);
+                                    return;
+                                }
+                                setIsFavorite(false);
+                                AsyncStorage.setItem('favorites', JSON.stringify(favorites))
+                            } else {
+                                if (!favorites) {
+                                    var favoritesNewArray = [];
+                                    favoritesNewArray.push(product.id)
+                                    AsyncStorage.setItem('favorites', JSON.stringify(favoritesNewArray))
+                                } else {
+                                    favorites.push(product.id);
+                                    AsyncStorage.setItem('favorites', JSON.stringify(favorites))
+                                }
+                                setIsFavorite(true)
+                            }
+
+                        }} style={{ width: 30 }}>
+                            <Ionicons name={isFavorite ? 'heart' : 'heart-outline'} size={30} color={'#0d6efd'}></Ionicons>
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginBottom: 30 }}>
@@ -142,7 +219,7 @@ export default function PostScreen({ route, navigation }) {
                                         <View key={'review' + review.id} style={styles.reviewItem}>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, }}>
                                                 <Text style={{ fontSize: 20, fontStyle: 'italic', color: 'rgb(90, 90, 90)' }}>{review.name}</Text>
-                                                <Text>{date.toLocaleDateString()}</Text>
+                                                <Text>{date.toLocaleDateString("ru-RU")}</Text>
                                             </View>
                                             <View style={{ flexDirection: 'row', marginBottom: 25, }}>
                                                 <Ionicons size={15} name={'star'} color={(review.rating >= 1) ? 'orange' : 'silver'} />
@@ -258,7 +335,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 5,
-        marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'center',
         backgroundColor: '#ffc107'

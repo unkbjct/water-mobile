@@ -18,15 +18,18 @@ import { Loading } from '../../../components/Loading';
 export default function HomeScreen({ navigation }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState();
-
+    const [favorites, setFavorites] = React.useState();
 
     const getUser = () => {
         setIsLoading(true);
         AsyncStorage.getItem('user', (errs, user) => {
             setUser(JSON.parse(user));
-        }).finally(() => {
-            setIsLoading(false)
-        });
+            AsyncStorage.getItem('favorites', (errs, favorites) => {
+                setFavorites(JSON.parse(favorites));
+            }).finally(() => {
+                setIsLoading(false)
+            });
+        })
     };
 
     React.useEffect(getUser, []);
@@ -55,7 +58,7 @@ export default function HomeScreen({ navigation }) {
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
+                <TouchableWithoutFeedback onPress={() => { navigation.navigate('HistoryScreen') }}>
                     <View style={styles.SettingItem}>
                         <View>
                             <Ionicons name={'reorder-three'} size={25} color={'blue'} />
@@ -65,17 +68,17 @@ export default function HomeScreen({ navigation }) {
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
+                <TouchableWithoutFeedback onPress={() => { navigation.navigate('Favorites') }}>
                     <View style={styles.SettingItem}>
                         <View>
                             <Ionicons name={'heart'} size={25} color={'blue'} />
                         </View>
                         <View style={styles.SettingItemViewText}>
-                            <Text style={styles.SettingItemText}>Избранное</Text>
+                            <Text style={styles.SettingItemText}>Избранное <Text style={{ color: 'rgb(100, 100, 100)' }}>{(favorites) ? favorites.length : ''}</Text></Text>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
+                {/* <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
                     <View style={styles.SettingItem}>
                         <View>
                             <Ionicons name={'eye'} size={25} color={'blue'} />
@@ -84,7 +87,7 @@ export default function HomeScreen({ navigation }) {
                             <Text style={styles.SettingItemText}>История просмотроп</Text>
                         </View>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback> */}
                 <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
                     <View style={styles.SettingItem}>
                         <View>

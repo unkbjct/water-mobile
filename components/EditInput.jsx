@@ -50,7 +50,7 @@ export default class EditInput extends React.Component {
                         }}
                         secureTextEntry={this.state.secure}
                         // style={s tyles.EditInput}
-                        style={styles.EditInput}> {this.state.value}</TextInput>
+                        style={styles.EditInput}>{this.state.value}</TextInput>
                 </View>
             </View>
         )

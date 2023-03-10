@@ -76,7 +76,7 @@ export default function RegistrationScreen({ navigation }) {
                         }).then(response => response.text()).then(response => {
                             response = JSON.parse(response)
                             if (response.status == 'error') {
-                                Alert.alert("Пользователь не найден!")
+                                Alert.alert("Данная почта уже кем-то используется!")
                             } else {
                                 AsyncStorage.setItem('user', JSON.stringify(response.data.user), () => {
                                     navigation.navigate('main')
