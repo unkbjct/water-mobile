@@ -20,10 +20,13 @@ export default function CartScreen({ navigation }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [cartList, setCartList] = React.useState();
     const [products, setProducts] = React.useState();
+    const [gPrice, setGPrice] = React.useState(0);
+    const [gCount, setGCount] = React.useState(0);
 
     const getCart = () => {
         // AsyncStorage.removeItem('cartList')
         AsyncStorage.getItem('cartList', (errs, cartList) => {
+
             if (!cartList) {
                 setCartList(null);
                 setIsLoading(false);
@@ -31,7 +34,7 @@ export default function CartScreen({ navigation }) {
             }
             cartList = JSON.parse(cartList);
             setCartList(cartList)
-            console.log(cartList)
+
             let formData = new FormData();
             cartList.forEach(cartItem => {
                 formData.append("favorites[]", cartItem.id);
@@ -48,6 +51,14 @@ export default function CartScreen({ navigation }) {
                             if (cartItem.id == product.id) product.count = cartItem.count
                         })
                     })
+                    let tmpCount = 0;
+                    let tmpPrice = 0;
+                    response.data.products.forEach(product => {
+                        tmpCount += product.count
+                        tmpPrice += ((product.price - product.price * (product.sale / 100)) * product.count)
+                    })
+                    setGCount(tmpCount)
+                    setGPrice(tmpPrice)
                     setProducts(response.data.products)
                 }).then(() => {
                     setIsLoading(false)
@@ -84,6 +95,7 @@ export default function CartScreen({ navigation }) {
                 <View style={{ padding: 10, }}>
                     <Text style={styles.header}>Товары в корзине</Text>
                     {products.map((product => {
+
                         return (
                             <View style={styles.productItem} key={'produc' + product.id}>
                                 <TouchableOpacity onPress={() => {
@@ -131,6 +143,19 @@ export default function CartScreen({ navigation }) {
                             </View>
                         )
                     }))}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 40, }}>
+                        <Text style={{ fontSize: 20, }}>Количество: {gCount} шт.</Text>
+                        <Text style={{ fontSize: 20, }}>{currencyFormat(gPrice)}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate('create');
+                            }}
+                            style={{ borderRadius: 5, paddingVertical: 10, paddingHorizontal: 20, backgroundColor: '#0d6efd' }}>
+                            <Text style={{ color: 'white' }}>Оформить заказ</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView >
@@ -184,13 +209,13 @@ const styles = StyleSheet.create({
     },
     count: {
         // backgroundColor: 'silver',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         backgroundColor: 'white',
     },
     btn: {
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         backgroundColor: '#9ec5fe',
     },
     btnMin: {

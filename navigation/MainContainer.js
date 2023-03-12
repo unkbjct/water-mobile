@@ -129,8 +129,8 @@ function Main() {
             })}
         >
 
-            <Tab.Screen name={screenNames.home} component={HomeScreenNavigation} options={{ headerShown: false, }} />
-            <Tab.Screen name={screenNames.cart} component={CartNavigation} options={{ unmountOnBlur: true }} />
+            <Tab.Screen name={screenNames.home} component={HomeScreenNavigation} options={{ title: 'Каталог', headerShown: false, }} />
+            <Tab.Screen name={screenNames.cart} component={CartNavigation} options={{ headerShown: false, unmountOnBlur: true }} />
             <Tab.Screen name={screenNames.profile} component={ProfileScreenNavigation} options={{ headerShown: false }} />
 
         </Tab.Navigator>

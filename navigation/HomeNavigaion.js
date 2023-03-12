@@ -16,6 +16,7 @@ const HomeScreenNavigation = function () {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen} options={{
+                title: 'Каталог',
                 header: () => {
                     return (
                         <View style={styles.safeArea}>
@@ -38,7 +39,7 @@ const HomeScreenNavigation = function () {
                     );
                 }
             }} />
-            <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт', unmountOnBlur: true, }} />
+            <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт', unmountOnBlur: true, headerLeftLabelVisible: false, }} />
         </Stack.Navigator>
     );
 }

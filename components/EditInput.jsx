@@ -15,6 +15,7 @@ export default class EditInput extends React.Component {
         stylesItem: styles.EditItem,
         label: this.props.data.label,
         value: this.props.data.value,
+        help: this.props.data.help,
         secure: this.props.data.secure,
         setValue: this.props.onChange,
     }
@@ -35,23 +36,26 @@ export default class EditInput extends React.Component {
 
     render() {
         return (
-            <View style={this.state.stylesItem}>
-                <View style={styles.EditViewLabel}>
-                    <Text style={styles.EditLabel}>{this.state.label}:</Text>
+            <View style={{marginBottom: 20,}}>
+                <View style={this.state.stylesItem}>
+                    <View style={styles.EditViewLabel}>
+                        <Text style={styles.EditLabel}>{this.state.label}:</Text>
+                    </View>
+                    <View style={styles.EditViewInput}>
+                        <TextInput
+                            onBlur={() => this.onBlur()}
+                            onFocus={() => this.onFocus()}
+                            onChangeText={value => {
+                                if (this.state.setValue) {
+                                    this.state.setValue(value)
+                                }
+                            }}
+                            secureTextEntry={this.state.secure}
+                            // style={s tyles.EditInput}
+                            style={styles.EditInput}>{this.state.value}</TextInput>
+                    </View>
                 </View>
-                <View style={styles.EditViewInput}>
-                    <TextInput
-                        onBlur={() => this.onBlur()}
-                        onFocus={() => this.onFocus()}
-                        onChangeText={value => {
-                            if (this.state.setValue) {
-                                this.state.setValue(value)
-                            }
-                        }}
-                        secureTextEntry={this.state.secure}
-                        // style={s tyles.EditInput}
-                        style={styles.EditInput}>{this.state.value}</TextInput>
-                </View>
+                {(this.state.help) ? <Text style={{color: 'rgb(150, 150, 150)'}}>{this.state.help}</Text> : <></>}
             </View>
         )
     }
@@ -65,16 +69,16 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         borderRadius: 10,
         padding: 10,
+        marginBottom: 10,
         backgroundColor: 'white',
-        marginBottom: 30,
     },
     EditItemFocus: {
         borderRadius: 10,
         padding: 10,
         backgroundColor: 'rgb(180, 180, 180)',
-        marginBottom: 30,
         backgroundColor: 'rgb(250, 250, 250)',
         borderWidth: 1,
+        marginBottom: 10,
         borderColor: '#0d6efd',
     },
     EditViewLabel: {
