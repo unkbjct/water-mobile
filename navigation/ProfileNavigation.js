@@ -6,6 +6,7 @@ import EditProfileScreen from './screens/profile/EditProfileScreen';
 import HistoryScreen from './screens/profile/HistoryScreen';
 import OrderScreen from './screens/profile/OrderScreen';
 import FavoritesScreen from './screens/profile/FavoritesScreen';
+import InformationScreen from './screens/profile/InformationScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const ProfileScreenNavigation = () => {
             <Stack.Screen name='HistoryScreen' component={HistoryScreen} options={{ title: 'История заказов', headerBackTitleVisible: true, }} />
             <Stack.Screen name='Order' component={OrderScreen} options={{ title: 'Заказ', headerBackTitleVisible: true, }} />
             <Stack.Screen name='Favorites' component={FavoritesScreen} options={{ title: 'Избранные товары', headerBackTitleVisible: true, }} />
+            {/* <Stack.Screen name='Information' component={InformationScreen} options={{ title: 'Информация', headerBackTitleVisible: true, }} /> */}
         </Stack.Navigator>
     )
 }

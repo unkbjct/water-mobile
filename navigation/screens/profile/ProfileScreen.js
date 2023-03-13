@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 import { RefreshControl } from 'react-native';
+import { Linking } from 'react-native';
 import {
     StyleSheet,
     View,
@@ -13,6 +14,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Loading } from '../../../components/Loading';
+import { SiteUrl } from '../../../env';
 
 
 export default function HomeScreen({ navigation }) {
@@ -88,7 +90,16 @@ export default function HomeScreen({ navigation }) {
                         </View>
                     </View>
                 </TouchableWithoutFeedback> */}
-                <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
+                <TouchableWithoutFeedback onPress={() => {
+                    // navigation.navigate('Information')
+                    Linking.canOpenURL(SiteUrl + 'information').then(supported => {
+                        if (supported) {
+                            Linking.openURL(SiteUrl + 'information');
+                        } else {
+                            Alert.alert("Что-то пошло не так, попробуйте позже.")
+                        }
+                    });
+                }}>
                     <View style={styles.SettingItem}>
                         <View>
                             <Ionicons name={'information-circle'} size={25} color={'blue'} />
@@ -98,7 +109,15 @@ export default function HomeScreen({ navigation }) {
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { Alert.alert("asd", 'asd') }}>
+                <TouchableWithoutFeedback onPress={() => {
+                    Linking.canOpenURL(SiteUrl + 'information#contacts').then(supported => {
+                        if (supported) {
+                            Linking.openURL(SiteUrl + 'information');
+                        } else {
+                            Alert.alert("Что-то пошло не так, попробуйте позже.")
+                        }
+                    });
+                }}>
                     <View style={styles.SettingItem}>
                         <View>
                             <Ionicons name={'help-buoy'} size={25} color={'blue'} />

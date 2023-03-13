@@ -18,26 +18,26 @@ const HomeScreenNavigation = function ({ navigation }) {
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen} options={{
                 title: 'Каталог',
-                header: () => {
-                    return (
-                        <View style={styles.safeArea}>
+                // header: () => {
+                //     return (
+                //         <View style={styles.safeArea}>
 
-                            <TextInput
-                                style={styles.input}
-                                // value={value}
-                                placeholder="Поиск товара"
-                                onChangeText={(text) => { qwe = text }}
-                            // keyboardType="text"
-                            />
-                            <TouchableOpacity style={styles.btn} onPress={() => {
-                                navigation.navigate("Filter")
-                            }}>
-                                <Ionicons style={{
-                                }} name={'filter'} size={30} color={'blue'} />
-                            </TouchableOpacity>
-                        </View>
-                    );
-                }
+                //             <TextInput
+                //                 style={styles.input}
+                //                 // value={value}
+                //                 placeholder="Поиск товара"
+                //                 onChangeText={(text) => { qwe = text }}
+                //             // keyboardType="text"
+                //             />
+                //             <TouchableOpacity style={styles.btn} onPress={() => {
+                //                 navigation.navigate("Filter")
+                //             }}>
+                //                 <Ionicons style={{
+                //                 }} name={'filter'} size={30} color={'blue'} />
+                //             </TouchableOpacity>
+                //         </View>
+                //     );
+                // }
             }} />
             <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт', unmountOnBlur: true, headerLeftLabelVisible: false, }} />
             <Stack.Screen name="Filter" component={FilterScreen} options={{ title: 'Фильтры', headerLeftLabelVisible: false, }} />
