@@ -87,7 +87,7 @@ function Auth() {
     return (
         <Stack.Navigator>
             {/* <Stack.Screen name='asd' component={LoginScreen} /> */}
-            <Stack.Screen name="login" component={LoginScreen} options={{ title: 'Авторизация', headerShown: false }} />
+            <Stack.Screen name="login" component={LoginScreen} options={{ title: 'Авторизация', headerShown: false, unmountOnBlur: true }} />
             <Stack.Screen name='registration' component={RegistrationScreen} options={{ title: 'Регистрация', headerShown: false }}></Stack.Screen>
         </Stack.Navigator>
     );

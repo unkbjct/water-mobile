@@ -15,6 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SiteUrl } from '../../env';
 
 
 export default function PostScreen({ route, navigation }) {
@@ -33,7 +34,7 @@ export default function PostScreen({ route, navigation }) {
     const fetchPosts = () => {
 
         fetch
-            ('http://colledge.fun/api/products/' + id, {
+            (SiteUrl + 'api/products/' + id, {
                 method: 'post',
             })
             .then(response => response.text())

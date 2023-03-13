@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Product } from '../../components/Product';
 import { Loading } from '../../components/Loading';
+import { SiteUrl } from '../../env';
 
 export default function HomeScreen({ navigation }) {
     const [isLoading, setIsLoading] = React.useState(true);
@@ -19,7 +20,7 @@ export default function HomeScreen({ navigation }) {
 
     const fetchPosts = () => {
         setIsLoading(true);
-        fetch('http://colledge.fun/api/products', {
+        fetch(SiteUrl + 'api/products', {
             method: 'post',
         })
             .then(response => response.text())

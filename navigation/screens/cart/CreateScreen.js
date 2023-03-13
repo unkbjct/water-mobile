@@ -18,6 +18,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditInput from '../../../components/EditInput';
 import { Loading } from '../../../components/Loading';
+import { SiteUrl } from '../../../env';
 
 
 export default function CartScreen({ navigation }) {
@@ -56,7 +57,7 @@ export default function CartScreen({ navigation }) {
             cartList.forEach(cartItem => {
                 formData.append("favorites[]", cartItem.id);
             });
-            fetch('http://colledge.fun/api/account/favorites', {
+            fetch(SiteUrl + 'api/account/favorites', {
                 method: 'post',
                 body: formData,
             })
@@ -120,7 +121,7 @@ export default function CartScreen({ navigation }) {
                         <EditInput data={{ label: 'Дом' }} onChange={text => setHouse(text)} />
                         <EditInput data={{ label: 'Корпус', help: 'Если корпуса нет, оставьте поле пустым' }} onChange={text => setBuild(text)} />
                         <EditInput data={{ label: 'Квартира' }} onChange={text => setApart(text)} />
-                        <EditInput data={{ label: 'Комментарий к заказу' }} onChange={text => setComment(text)} />
+                        <EditInput data={{ label: 'Комментарий к заказу', help: 'Необязательное поле' }} onChange={text => setComment(text)} />
                     </View>
                     <View style={{ marginBottom: 10, }}>
                         <Text style={styles.header}>Информация о заказе</Text>
@@ -137,32 +138,33 @@ export default function CartScreen({ navigation }) {
 
                                 let formData = new FormData();
 
-                                formData.append("mobile", true)
-                                formData.append("user", user.id)
-                                formData.append("name", name)
-                                formData.append("surname", surname)
-                                formData.append("email", email)
-                                formData.append("phone", phone)
-                                formData.append("city", city)
-                                formData.append("street", street)
-                                formData.append("house", house)
-                                formData.append("apart", apart)
-                                formData.append("build", build)
-                                formData.append("comment", comment)
-                                formData.append("cart", JSON.stringify(cartList))
+                                formData.append("mobile", true);
+                                formData.append("user", user.id);
+                                formData.append("name", name);
+                                formData.append("surname", surname);
+                                formData.append("email", email);
+                                formData.append("phone", phone);
+                                formData.append("city", city);
+                                formData.append("street", street);
+                                formData.append("house", house);
+                                formData.append("apart", apart);
+                                (build) ? formData.append("build", build) : null;
+                                (comment) ? formData.append("comment", comment) : null;
+                                formData.append("cart", JSON.stringify(cartList));
 
                                 console.log(JSON.stringify(cartList))
-                                fetch('http://colledge.fun/core/payment/create', {
+                                fetch(SiteUrl + 'core/payment/create', {
                                     method: 'post',
                                     body: formData,
                                 }).then(response => response.text()).then(url => {
                                     console.log(url)
 
+                                    navigation.navigate('Профиль');
                                     Linking.canOpenURL(url).then(supported => {
                                         if (supported) {
                                             Linking.openURL(url);
                                         } else {
-                                            console.log("Don't know how to open URI: " + url);
+                                            Alert.alert("Что-то пошло не так, попробуйте позже.")
                                         }
                                     });
                                 })

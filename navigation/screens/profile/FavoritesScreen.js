@@ -15,6 +15,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Loading } from '../../../components/Loading';
 import { Product } from '../../../components/Product';
+import { SiteUrl } from '../../../env';
 
 
 export default function HomeScreen({ navigation }) {
@@ -33,7 +34,7 @@ export default function HomeScreen({ navigation }) {
             tmpFavorites.forEach(favor => {
                 formData.append("favorites[]", favor);
             });
-            fetch('http://colledge.fun/api/account/favorites', {
+            fetch(SiteUrl + 'api/account/favorites', {
                 method: 'post',
                 body: formData,
             })

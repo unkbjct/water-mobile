@@ -6,10 +6,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './screens/HomeScreen';
 import PostScreen from './screens/PostScreen';
+import FilterScreen from './screens/FilterScreen';
 
 const Stack = createStackNavigator();
 
-const HomeScreenNavigation = function () {
+const HomeScreenNavigation = function ({ navigation }) {
 
     let qwe = '';
 
@@ -29,8 +30,7 @@ const HomeScreenNavigation = function () {
                             // keyboardType="text"
                             />
                             <TouchableOpacity style={styles.btn} onPress={() => {
-                                Alert.alert('Ошибка', qwe);
-                                // console.debug(qwe);
+                                navigation.navigate("Filter")
                             }}>
                                 <Ionicons style={{
                                 }} name={'filter'} size={30} color={'blue'} />
@@ -40,6 +40,7 @@ const HomeScreenNavigation = function () {
                 }
             }} />
             <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт', unmountOnBlur: true, headerLeftLabelVisible: false, }} />
+            <Stack.Screen name="Filter" component={FilterScreen} options={{ title: 'Фильтры', headerLeftLabelVisible: false, }} />
         </Stack.Navigator>
     );
 }

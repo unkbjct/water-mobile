@@ -15,6 +15,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import EditInput from '../../../components/EditInput';
 import { Loading } from '../../../components/Loading';
+import { SiteUrl } from '../../../env';
 
 
 
@@ -78,7 +79,7 @@ export default function () {
                                 formdata.append("email", email);
                                 formdata.append("id", user.id);
 
-                                fetch('http://colledge.fun/api/account/edit', {
+                                fetch(SiteUrl + 'api/account/edit', {
                                     method: 'post',
                                     body: formdata,
                                 }).then(response => response.text()).then(response => {
@@ -130,7 +131,7 @@ export default function () {
                                 formdata.append("confirmNewPassword", confirmPasswd);
                                 formdata.append("id", user.id);
 
-                                fetch('http://colledge.fun/api/account/edit/password', {
+                                fetch(SiteUrl + 'api/account/edit/password', {
                                     method: 'post',
                                     body: formdata,
                                 }).then(response => response.text()).then(response => {

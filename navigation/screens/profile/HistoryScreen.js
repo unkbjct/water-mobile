@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { Loading } from '../../../components/Loading';
+import { SiteUrl } from '../../../env';
 
 export default function HistoryScreen({ navigation }) {
     const [isLoading, setIsLoading] = React.useState(true);
@@ -25,7 +26,7 @@ export default function HistoryScreen({ navigation }) {
                 setUser(JSON.parse(user));
                 let formData = new FormData();
                 formData.append("id", JSON.parse(user).id);
-                fetch("http://colledge.fun/api/account/history", {
+                fetch(SiteUrl + "api/account/history", {
                     method: 'POST',
                     body: formData,
                 }).then(response => response.text()).then(response => {

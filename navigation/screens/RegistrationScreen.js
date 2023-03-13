@@ -14,6 +14,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import EditInput from '../../components/EditInput';
+import { SiteUrl } from '../../env';
 
 export default function RegistrationScreen({ navigation }) {
     let data = {
@@ -70,7 +71,7 @@ export default function RegistrationScreen({ navigation }) {
                         formdata.append("passwd", data.passwd);
                         formdata.append("confirmPasswd", data.confirmPasswd);
 
-                        fetch('http://colledge.fun/api/account/create', {
+                        fetch(SiteUrl + 'api/account/create', {
                             method: 'post',
                             body: formdata,
                         }).then(response => response.text()).then(response => {

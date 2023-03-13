@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Loading } from '../../../components/Loading';
+import { SiteUrl } from '../../../env';
 
 
 export default function CartScreen({ navigation }) {
@@ -39,7 +40,7 @@ export default function CartScreen({ navigation }) {
             cartList.forEach(cartItem => {
                 formData.append("favorites[]", cartItem.id);
             });
-            fetch('http://colledge.fun/api/account/favorites', {
+            fetch(SiteUrl + 'api/account/favorites', {
                 method: 'post',
                 body: formData,
             })

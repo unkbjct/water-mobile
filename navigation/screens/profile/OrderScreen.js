@@ -58,7 +58,7 @@ export default function HistoryScreen({ route, navigation }) {
                         <Text style={styles.header}>Товары</Text>
                         {order.products.map((product) => {
                             return (
-                                <SmallProduct item={product} navigation={navigation}/>
+                                <SmallProduct key={'product' + product.id} item={product} navigation={navigation} />
                             )
                         })}
                     </View>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginRight: 10,
         marginBottom: 5,
-    },  
+    },
     formatedText: {
         fontSize: 18,
         color: 'rgb(100, 100, 100)',

@@ -14,6 +14,7 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import EditInput from '../../components/EditInput';
+import { SiteUrl } from '../../env';
 
 
 
@@ -51,7 +52,7 @@ export default function LoginScreen({ navigation }) {
                         formdata.append("email", data.email);
                         formdata.append("passwd", data.passwd);
 
-                        fetch('http://colledge.fun/api/account/login', {
+                        fetch(SiteUrl + 'api/account/login', {
                             method: 'post',
                             body: formdata,
                         }).then(response => response.text()).then(response => {
