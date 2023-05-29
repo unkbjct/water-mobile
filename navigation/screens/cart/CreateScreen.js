@@ -51,6 +51,7 @@ export default function CartScreen({ navigation }) {
                 return;
             }
             cartList = JSON.parse(cartList);
+            console.log(cartList);
             setCartList(cartList)
 
             let formData = new FormData();

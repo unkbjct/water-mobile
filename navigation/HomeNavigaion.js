@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import PostScreen from './screens/PostScreen';
 import FilterScreen from './screens/FilterScreen';
+import NewReview from './screens/NewReview';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ const HomeScreenNavigation = function ({ navigation }) {
             }} />
             <Stack.Screen name="FullPost" component={PostScreen} options={{ title: 'Продукт', unmountOnBlur: true, headerLeftLabelVisible: false, }} />
             <Stack.Screen name="Filter" component={FilterScreen} options={{ title: 'Фильтры', headerLeftLabelVisible: false, }} />
+            <Stack.Screen name="NewReview" component={NewReview} options={{ title: 'Новый отзыв', headerLeftLabelVisible: false, }} />
         </Stack.Navigator>
     );
 }

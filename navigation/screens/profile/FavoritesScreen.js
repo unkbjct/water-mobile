@@ -103,11 +103,7 @@ export default function HomeScreen({ navigation }) {
                     </TouchableOpacity>
                 )}
             />
-            <Text>Избранное</Text>
         </SafeAreaView>
     )
 }
 
-const styles = StyleSheet.create({
-
-})

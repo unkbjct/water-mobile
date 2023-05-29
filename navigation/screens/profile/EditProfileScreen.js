@@ -83,6 +83,8 @@ export default function () {
                                     method: 'post',
                                     body: formdata,
                                 }).then(response => response.text()).then(response => {
+                                    // console.log(response)
+                                    // return
                                     response = JSON.parse(response);
                                     newUser = response.data.user;
                                     if (response.status == 'error') {

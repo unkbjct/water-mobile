@@ -56,6 +56,7 @@ export default function PostScreen({ route, navigation }) {
                     });
                 })
             }).then(() => {
+                console.log(product)
                 setIsLoading(false)
             })
 
@@ -208,7 +209,7 @@ export default function PostScreen({ route, navigation }) {
                     <View style={{ marginBottom: 30, }}>
                         <Text style={styles.header}>Отзывы</Text>
                         <View style={{ marginBottom: 30, }}>
-                            <TouchableOpacity style={styles.btn}>
+                            <TouchableOpacity style={styles.btn} onPress={() => { navigation.navigate("NewReview", { productId: product.id, title: product.title }) }}>
                                 <Text>Оставить новый отзыв</Text>
                             </TouchableOpacity>
                         </View>

@@ -18,6 +18,7 @@ export default class EditInput extends React.Component {
         help: this.props.data.help,
         secure: this.props.data.secure,
         setValue: this.props.onChange,
+        multiLine: this.props.multiLine,
     }
 
 
@@ -52,7 +53,8 @@ export default class EditInput extends React.Component {
                             }}
                             secureTextEntry={this.state.secure}
                             // style={s tyles.EditInput}
-                            style={styles.EditInput}>{this.state.value}</TextInput>
+                            multiline={this.state.multiLine ? true : false}
+                            style={[styles.EditInput, this.state.multiLine ? {height: 70} : {}]}>{this.state.value}</TextInput>
                     </View>
                 </View>
                 {(this.state.help) ? <Text style={{color: 'rgb(150, 150, 150)'}}>{this.state.help}</Text> : <></>}
